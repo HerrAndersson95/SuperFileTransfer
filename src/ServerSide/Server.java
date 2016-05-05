@@ -18,6 +18,7 @@ public class Server {
 		clients = new ArrayList<Socket>();
 		try {
 			ServerSocket server = new ServerSocket(port);
+			System.out.println("Server up");
 			
 			while(true){
 				Socket client = server.accept();
