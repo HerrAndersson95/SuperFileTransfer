@@ -21,7 +21,7 @@ public class Server {
 			
 			while(true){
 				Socket client = server.accept();
-				System.out.println("Made connection with: " + client.getInetAddress() + "on: " + client.getPort());
+				System.out.println("Made connection with: " + client.getInetAddress().toString() + "on: " + client.getPort());
 				clients.add(client);
 				System.out.println("ADDED client");
 				

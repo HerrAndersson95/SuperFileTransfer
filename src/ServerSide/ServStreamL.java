@@ -20,7 +20,10 @@ public class ServStreamL extends Thread{
 				while (!client.isClosed()) {
 					String line = in.readLine();
 					System.out.println(client.getInetAddress() + ": " + line);
-					server.getStatus();
+					
+					if(line.contains("/status")){
+						server.getStatus();
+					}
 				}
 				client.close();
 			} catch (Exception e) {
