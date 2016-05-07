@@ -21,8 +21,6 @@ public class Client {
 			Thread Writer = new ClientStreamW(s);
 			Writer.start();
 			
-			
-			
 			System.out.println("-BEGIN SEND-");
 			File file = new File("src/pic1.jpg");
 			//FileOutputStream fop = new FileOutputStream(file);
