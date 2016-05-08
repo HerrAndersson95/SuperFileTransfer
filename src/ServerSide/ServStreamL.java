@@ -28,7 +28,7 @@ public class ServStreamL extends Thread{
 					System.out.println("TYPE: " + pac1r.getType());
 					System.out.println("CONTENT: " + new String(pac1r.getContent(), "UTF-8"));
 					
-					checkType(pac1r.getType());
+					checkPaket(pac1r);
 				}
 				client.close();
 			} catch (Exception e) {
@@ -36,10 +36,17 @@ public class ServStreamL extends Thread{
 			}
 		}
 		
-		public void checkType(String type){
-			switch (type){
-			case "/users" : 
+		public void checkPaket(Paket pac){
+			System.out.println("ANALYSING PAKET");
+			switch (pac.getType()){
+			case "users" : 
 				server.getConnected(client);
+				break;
+			case "file":
+				server.receiveFile(pac.getContent());
+				break;
+			case "quit":
+				server.disconnUsr(client);
 				break;
 			default :
 				;
