@@ -13,9 +13,11 @@ public class Server {
 	
 	private static int port = 30000;
 	private ArrayList<Socket> clients;
+	private ArrayList<Thread> clientConns;
 	
 	public Server(){
 		clients = new ArrayList<Socket>();
+		clientConns = new ArrayList<Thread>();
 		try {
 			ServerSocket server = new ServerSocket(port);
 			System.out.println("Server up");
@@ -27,6 +29,7 @@ public class Server {
 				System.out.println("ADDED client");
 				
 				Thread listener = new ServStreamL(this, client);
+				clientConns.add(listener);
 				listener.start();
 			}
 		} catch (Exception e) {
@@ -41,6 +44,19 @@ public class Server {
 				out.println("Welcome user to the shittiest server ever.");
 			} catch (IOException e) { }
 		}
+	}
+	
+	public void getConnected(Socket theOneWhoAsked){
+		try {
+			PrintWriter out = new PrintWriter(new BufferedOutputStream(theOneWhoAsked.getOutputStream()), true);
+			for(Socket s : clients){
+				out.println("User on: " + s.getInetAddress().toString());
+			}
+		} catch (IOException e) { }
+	}
+	
+	public void receiveFile(){
+		
 	}
 	
 	public static void main(String[] args) {

@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import Util.Paket;
+
 public class Server2Test {
 
 	private static int port = 30000;
@@ -30,12 +32,19 @@ public class Server2Test {
 						"Made connection with: " + client.getInetAddress().toString() + "on: " + client.getPort());
 				System.out.println("OK");
 				
-				System.out.println("-SKA TA EMOT-");
-				File file = new File("src/pic1R.jpg");
+//				System.out.println("-SKA TA EMOT-");
+//				File file = new File("src/pic1R.jpg");
+//				ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+//				byte[] content = (byte[]) ois.readObject();
+//				Files.write(file.toPath(), content);
+//				System.out.println("-END-");
+				
+				System.out.println("START RECEIVE");
 				ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-				byte[] content = (byte[]) ois.readObject();
-				Files.write(file.toPath(), content);
-				System.out.println("-END-");
+				Paket pac1r = (Paket) ois.readObject();
+				System.out.println("END RECEIVE");
+				System.out.println("TYPE: " + pac1r.getType());
+				System.out.println("CONTENT: " + new String(pac1r.getContent(), "UTF-8"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
