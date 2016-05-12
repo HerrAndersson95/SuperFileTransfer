@@ -47,6 +47,7 @@ public class ClientStreamW extends Thread{
 		switch (type){
 		case "file":
 			try {
+				System.out.println("HÄR123");
 				File file = new File("src/pic1.jpg");
 				pac = new Paket(type, Files.readAllBytes(file.toPath()));
 			} catch (IOException e) {
