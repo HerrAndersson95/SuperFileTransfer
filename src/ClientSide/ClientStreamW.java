@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Files;
 
+import Util.Doc;
 import Util.Paket;
 
 public class ClientStreamW extends Thread{
@@ -42,7 +43,7 @@ public class ClientStreamW extends Thread{
 			System.out.println("Kan inte skriva");
 		}
 	}
-	private Paket generatePaket(String type, String content){
+	private Paket generatePaket(String type, Doc doc){
 		Paket pac;
 		switch (type){
 		case "file":
