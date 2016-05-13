@@ -1,22 +1,15 @@
 package ClientSide;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.file.Files;
-
-import Util.Paket;
 
 public class Client {
 	
 	public static void main(String[] args){
 		try {
-			Socket s = new Socket(InetAddress.getLocalHost(), 30000);
 			
-			System.out.println("Connected");
+			Socket s = new Socket(args[0], Integer.parseInt(args[1]));
+			
+			System.out.println("Connected to Server");
 			
 			Thread listener = new ClientStreamL(s);
 			listener.start();
@@ -24,6 +17,7 @@ public class Client {
 			Writer.start();
 			
 		} catch (Exception e) {
+			System.out.println("--ERROR CONN NOT EST--");
 			e.printStackTrace();
 		}
 	}

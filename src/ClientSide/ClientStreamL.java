@@ -1,8 +1,10 @@
 package ClientSide;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+
+import Util.Paket;
 
 public class ClientStreamL extends Thread{
 	
@@ -14,14 +16,40 @@ public class ClientStreamL extends Thread{
 		
 		public void run(){
 			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+				ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
 				while (!server.isClosed()) {
-					String line = in.readLine();
-					System.out.println(server.getInetAddress() + ":" + server.getPort() + ": " + line);
+					Paket pac1r = (Paket) ois.readObject();
+					checkPaket(pac1r);
 				}
 				server.close();
 			} catch (Exception e) {
 				System.out.println("Kan inte läsa");
+				e.printStackTrace();
+			}
+		}
+		
+		public void checkPaket(Paket pac){
+			switch (pac.getType()){
+//			case "users" : 
+//				server.getConnected(client);
+//				break;
+//			case "file":
+//				server.receiveFile(pac.getDoc().getContent());
+//				break;
+			case "chat":
+				try {
+					System.out.println(pac.getDoc().getTitle() + ": " + new String(pac.getDoc().getContent(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {}
+				break;
+			case "help":
+				try {
+					System.out.println(pac.getDoc().getTitle());
+					System.out.println(new String(pac.getDoc().getContent(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {}
+				break;
+			default :
+				;
+				break;
 			}
 		}
 }

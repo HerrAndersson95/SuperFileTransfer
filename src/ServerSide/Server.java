@@ -1,36 +1,39 @@
 package ServerSide;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import Util.Doc;
+import Util.Paket;
+
 public class Server {
 	
-	private static int port = 30000;
+	private int port;
 	private ArrayList<Socket> clients;
-	private ArrayList<Thread> clientConns;
+	private ArrayList<ServStreamL> clientConns;
 	
-	public Server(){
+	public Server(int port){
+		this.port = port;
 		clients = new ArrayList<Socket>();
-		clientConns = new ArrayList<Thread>();
+		clientConns = new ArrayList<ServStreamL>();
+		
 		try {
 			ServerSocket server = new ServerSocket(port);
-			System.out.println("Server up");
+			System.out.println("Server up on");
+			System.out.println(InetAddress.getLocalHost());
+			System.out.println(port);
 			
 			while(true){
 				Socket client = server.accept();
-				System.out.println("Made connection with: " + client.getInetAddress().toString() + "on: " + client.getPort());
+				System.out.println("Made connection with: " + client.getInetAddress().toString() + " on: " + client.getPort());
 				clients.add(client);
-				System.out.println("ADDED client");
 				
-				Thread listener = new ServStreamL(this, client);
+				ServStreamL listener = new ServStreamL(this, client);
 				clientConns.add(listener);
 				listener.start();
 			}
@@ -38,32 +41,15 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
-	public void getStatus(){
-		for(Socket s : clients){
-			try {
-				PrintWriter out = new PrintWriter(new BufferedOutputStream(s.getOutputStream()), true);
-				out.println("Welcome user to the shittiest server ever.");
-			} catch (IOException e) { }
-		}
-	}
-	
-	public void getConnected(Socket theOneWhoAsked){
+		
+	public void receiveFile(Doc doc){
 		try {
-			PrintWriter out = new PrintWriter(new BufferedOutputStream(theOneWhoAsked.getOutputStream()), true);
-			for(Socket s : clients){
-				out.println("User on: " + s.getInetAddress().toString());
-			}
-		} catch (IOException e) { }
-	}
-	
-	public void receiveFile(byte[] content){
-		try {
-			File file = new File("src/pic1R.jpg");
-			Files.write(file.toPath(), content);
-			System.out.println("File saved");
+			File file = new File("src/filesR/" + doc.getTitle());
+			Files.write(file.toPath(), doc.getContent());
+			System.out.println("File " + doc.getTitle() + " saved");
 		} catch (IOException e) {
-			System.out.println("Did could not save file");
+			System.out.println("Could not save " + doc.getTitle());
+			e.printStackTrace();
 		}
 	}
 	
@@ -71,8 +57,20 @@ public class Server {
 		clients.remove(client);
 	}
 	
-	public static void main(String[] args) {
-		Server server = new Server();
+	public synchronized void sendChat(Paket pac){
+		for(ServStreamL t : clientConns){
+			t.sendToClients(pac);
+		}
 	}
+	
+	public void getCommands() {
+		Paket pac = new Paket("help", new Doc("Available commands are", "/help , /file".getBytes()));
+		sendChat(pac);
+	}
+	
+	public static void main(String[] args) {
+		Server server = new Server(30000);
+	}
+
 
 }
