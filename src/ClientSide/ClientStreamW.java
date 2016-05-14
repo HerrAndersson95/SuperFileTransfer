@@ -44,13 +44,13 @@ public class ClientStreamW extends Thread{
 			System.out.println("INPUT COMPLETE FILE NAME FROM 'files' FOLDER");
 			try {
 				String name = in.readLine();
-				File file = new File("src/"+name);
+				File file = new File("files/" + name);
+				
 				pac = new Paket("file", new Doc(name, Files.readAllBytes(file.toPath())));
 				System.out.println("Sent file");
 			} catch (IOException e) {
 				pac = new Paket("ERROR",  new Doc("ERROR", "ERROR".getBytes()));
-				System.out.println("Sent Error");	
-				e.printStackTrace();
+				System.out.println("The File was not found or isnt a file, make sure to input [NAME].[TYPE]");	
 			};
 			return pac;
 			
