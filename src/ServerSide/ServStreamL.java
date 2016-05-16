@@ -29,7 +29,7 @@ public class ServStreamL extends Thread{
 				}
 				client.close();
 			} catch (Exception e) {
-				System.out.println("Kan inte läsa");
+				System.out.println("Fel i avläsning / Client Disconnect");
 			}
 		}
 		
