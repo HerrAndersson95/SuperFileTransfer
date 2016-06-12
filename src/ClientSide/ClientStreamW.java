@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.file.Files;
 
@@ -55,8 +56,13 @@ public class ClientStreamW extends Thread{
 			return pac;
 			
 		default:
-			pac = new Paket("chat", new Doc(client.getInetAddress().toString(), type.getBytes()));
-			return pac;
+			try{
+				pac = new Paket("chat", new Doc(InetAddress.getLocalHost().getHostAddress(), type.getBytes()));
+				return pac;
+			} catch (IOException e){
+				pac = new Paket("ERROR",  new Doc("ERROR", "ERROR".getBytes()));
+				return pac;
+			}
 		}
 	}
 
