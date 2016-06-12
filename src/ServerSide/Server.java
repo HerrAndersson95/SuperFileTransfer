@@ -49,6 +49,7 @@ public class Server {
 			System.out.println("File " + doc.getTitle() + " saved");
 		} catch (IOException e) {
 			System.out.println("Could not save " + doc.getTitle());
+			e.printStackTrace();
 		}
 	}
 	
