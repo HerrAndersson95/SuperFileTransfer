@@ -29,6 +29,7 @@ import ClientSide2.Client2;
 
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.SwingConstants;
+import javax.swing.text.DefaultCaret;
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
@@ -47,6 +48,7 @@ public class ClientGUI {
 	private JTextArea ChatArea;
 	private JButton btnSendFile;
 	private JSeparator separator;
+	private JButton btnInfo;
 
 	/**
 	 * Launch the application.
@@ -81,7 +83,7 @@ public class ClientGUI {
 		
 		frmSuperfiletransfer = new JFrame();
 		frmSuperfiletransfer.getContentPane().setBackground(Color.LIGHT_GRAY);
-		frmSuperfiletransfer.setTitle("SuperFileTransfer");
+		frmSuperfiletransfer.setTitle("SuperFileTransferClient");
 		frmSuperfiletransfer.setBounds(100, 100, 450, 300);
 		
 		frmSuperfiletransfer.setMinimumSize(new Dimension(530 , 300));
@@ -95,6 +97,7 @@ public class ClientGUI {
 		frmSuperfiletransfer.getContentPane().setLayout(gridBagLayout);
 		
 		JPanel panel = new JPanel();
+		panel.setMinimumSize(new Dimension(235 , 300));
 		panel.setBackground(Color.GRAY);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
@@ -106,7 +109,7 @@ public class ClientGUI {
 		gbl_panel.columnWidths = new int[]{0, 0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		txtSeverIp = new JTextField();
@@ -169,13 +172,54 @@ public class ClientGUI {
 		btnSendFile = new JButton("Send file");
 		btnSendFile.addActionListener(new SendFileListener(client));
 		
+		btnInfo = new JButton("Info!");
+		
+		//CLICK
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearChat();
+				appendChat("----INFO----");
+				appendChat("Program created by:");
+				appendChat("FluxKondensator / Joakim Andersson");
+				appendChat("");
+				appendChat("----PROGRAM----");
+				appendChat("This is the graphical GUI to my little Client/Server communication program.");
+				appendChat("It is capable of chatting with people connected to the main computer server");
+				appendChat("Main function is being able to send file to the server");
+				appendChat("(THIS IS THE CLIENT GUI)");
+				appendChat("Q: How large files can I send?");
+				appendChat("A: How much RAM do you have?");
+				appendChat("Q: Does it work ever the radical internet?");
+				appendChat("A: Portforward that shit! Then yes.");
+				appendChat("Q: Is it as 'Super' as you claim?");
+				appendChat("A: AWW HELL YES!");
+				appendChat("");
+				appendChat("----USAGE----");
+				appendChat("Enter the IP to the machine running the server in the field");
+				appendChat("Enter the Port that the server is running on");
+				appendChat("Click the unmissable 'connect' button");
+				appendChat("Pray for no Errors and you should be connected. (Not my fault if it doesnt work)");
+				appendChat("Send chat by inputing in the field and slap that enter button");
+				appendChat("Send files by clicking the huge send file button");
+				appendChat("");
+			}
+		});
+		
+		GridBagConstraints gbc_btnInfo = new GridBagConstraints();
+		gbc_btnInfo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnInfo.gridwidth = 2;
+		gbc_btnInfo.insets = new Insets(0, 0, 5, 0);
+		gbc_btnInfo.gridx = 0;
+		gbc_btnInfo.gridy = 3;
+		panel.add(btnInfo, gbc_btnInfo);
+		
 		separator = new JSeparator();
 		GridBagConstraints gbc_separator = new GridBagConstraints();
 		gbc_separator.gridwidth = 2;
-		gbc_separator.gridheight = 5;
-		gbc_separator.insets = new Insets(0, 0, 5, 5);
+		gbc_separator.gridheight = 4;
+		gbc_separator.insets = new Insets(0, 0, 5, 0);
 		gbc_separator.gridx = 0;
-		gbc_separator.gridy = 3;
+		gbc_separator.gridy = 4;
 		panel.add(separator, gbc_separator);
 		GridBagConstraints gbc_btnSendFile = new GridBagConstraints();
 		gbc_btnSendFile.fill = GridBagConstraints.HORIZONTAL;
@@ -211,6 +255,8 @@ public class ClientGUI {
 		ChatArea.setEditable(false);
 		ChatArea.setText("Chat Area");
 		scrollPane.setViewportView(ChatArea);
+		DefaultCaret caret = (DefaultCaret)ChatArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		ChatInput = new JTextField();
 		ChatInput.addActionListener(new ChatInputListener(this, client)); //LISTERNER
