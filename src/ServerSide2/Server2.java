@@ -33,7 +33,6 @@ public class Server2 {
 		this.port = port;
 		clients = new ArrayList<Socket>();
 		clientConns = new ArrayList<ServStreamL2>();
-		
 		try {
 			ServerSocket server = new ServerSocket(port);
 			sG.setIP(InetAddress.getLocalHost().getHostAddress());

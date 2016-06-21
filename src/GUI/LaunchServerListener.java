@@ -18,6 +18,7 @@ public class LaunchServerListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int port;
+		sG.clearChat();
 		try{
 			port = Integer.parseInt(sG.getPort());			
 		} catch (NumberFormatException e1){

@@ -187,6 +187,15 @@ public class ServerGUI {
 				appendChat("(Im not sure where the file might end up...)");
 				appendChat("You are gooood to go mate!");
 				appendChat("");
+				appendChat("----TERMS/CONDITIONS/DISCLAIMER----");
+				appendChat("BY USING THIS PROGRAM YOU AGREE THAT I CANNOT BE HELD RESPONSIBLE FOR ANYTHING");
+				appendChat("As far as I know this program might corrupt the computer and leak out your credit card number");
+				appendChat("These are the terms. Thats almost all.");
+				appendChat("But not really");
+				appendChat("If by any reason you bought this program from some dude that aint me you got scammed. Report that dude.");
+				appendChat("This was made for educational purposes. Do not re-distribute it.");
+				appendChat("SRC is available but it is quite ruff code. (Object Orientated? what is that?)");
+				appendChat("Im unemployed. Need work. please.");
 			}
 		});
 		GridBagConstraints gbc_btnInfo = new GridBagConstraints();
@@ -282,6 +291,10 @@ public class ServerGUI {
 		DefaultCaret caret = (DefaultCaret)ControlArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
+		//EndCode
+		appendChat("BY USING THIS PROGRAM YOU AGREE");
+		appendChat("TO THE TERMS AND CONDITIONS IN THE INFO");
+		//		
 	}
 	
 	public String getPort(){
